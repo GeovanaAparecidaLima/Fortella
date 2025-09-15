@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Fortella</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="logo">FORTELLA</div>
+    <div class="icon">
+      <img src="img/logo.png" alt="Fortella Logo" />
+    </div>
+    <div class="card">
+      <form id="loginForm">
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" placeholder="Digite seu e-mail" required>
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" placeholder="Digite sua senha" required>
+
+        <a href="#">Esqueci minha senha</a>
+
+        <button class="btn btn-login" type="submit">Entrar</button>
+        <button class="btn btn-cadastrar" type="button" onclick="cadastrar()">Cadastrar</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

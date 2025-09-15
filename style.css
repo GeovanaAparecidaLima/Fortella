@@ -1,0 +1,180 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #0f161c; /* fundo escuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .container {
+    width: 300px;
+    text-align: center;
+  }
+  
+  .logo {
+    color: #fff;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .icon img {
+    width: 60px;
+    margin-bottom: 20px;
+  }
+  
+  .card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+  
+  .card label {
+    display: block;
+    font-size: 14px;
+    text-align: left;
+    margin-bottom: 5px;
+  }
+  
+  .card input {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background: #ddd;
+    margin-bottom: 15px;
+    font-size: 14px;
+  }
+  
+  .card a {
+    display: block;
+    font-size: 12px;
+    color: #000;
+    text-decoration: none;
+    margin-bottom: 15px;
+  }
+  
+  .btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 10px;
+  }
+  
+  .btn-login {
+    background: #7d0c18; /* vermelho vinho */
+    color: #fff;
+  }
+  
+  .btn-cadastrar {
+    background: #d3b6b6; /* rosado claro */
+    color: #000;
+  }
+  
+  .btn:hover {
+    opacity: 0.9;
+  }
+  
+  /* Barra superior */
+.topbar {
+  background: #6a9d92;
+  color: white;
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+}
+
+.topbar .icon {
+  margin-right: 8px;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* Dashboard */
+.dashboard {
+  padding: 20px;
+  text-align: center;
+}
+
+.dashboard h2 {
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.card-btn {
+  padding: 30px 10px;
+  background: #6a9d92;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+.card-btn:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.sos {
+  background: #b81c2d; /* destaque vermelho */
+}
+
+/* Menu lateral */
+.side-menu {
+  position: fixed;
+  top: 0;
+  right: -250px;
+  width: 250px;
+  height: 100%;
+  background: #0f161c;
+  color: white;
+  transition: right 0.3s ease;
+  padding: 20px;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.5);
+}
+
+.side-menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+.side-menu ul li {
+  margin: 15px 0;
+}
+
+.side-menu ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  float: right;
+  cursor: pointer;
+}
