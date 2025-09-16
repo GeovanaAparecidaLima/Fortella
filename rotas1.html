@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotas Seguras</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f0f0f0; }
+        .container { max-width: 375px; width: 100%; height: 100vh; background-color: #1a1a1a; border-radius: 0; box-shadow: none; overflow: hidden; display: flex; flex-direction: column; }
+        .header { color: #fff; text-align: center; padding: 20px 0; font-size: 1.5rem; }
+        .content-area { flex-grow: 1; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+        .input-box { background-color: #f0f0f0; padding: 20px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); position: relative; }
+        .input-box input { width: calc(100% - 40px); padding: 10px; border: 1px solid #ccc; border-radius: 5px; margin-top: 10px; }
+        .input-box button { background-color: #7b0033; color: #fff; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        .save-buttons { display: flex; justify-content: space-between; margin-top: 15px; }
+        .save-buttons button { flex-grow: 1; margin: 0 5px; }
+        .map-container { background-color: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); flex-grow: 1; }
+        #map { height: 100%; width: 100%; }
+        .route-button { background-color: #7b0033; color: #fff; padding: 15px; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background-color 0.3s ease; margin: 20px; }
+        .route-button:hover { background-color: #5f0028; }
+        .map-button { width: 100%; background-color: #007bff; color: #fff; padding: 10px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        .map-button:hover { background-color: #0056b3; }
+        @media (min-width: 600px) { .container { max-width: 375px; height: 667px; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">Rotas Seguras</header>
+        <div class="content-area">
+            <div class="input-box">
+                <span>Destino:</span>
+                <input type="text" id="destinationInput" placeholder="Digite o endereço de destino">
+                <div class="save-buttons">
+                    <button onclick="saveAddress('home')">Salvar Casa</button>
+                    <button onclick="saveAddress('work')">Salvar Trabalho</button>
+                    <button onclick="loadAddress('home')">Casa</button>
+                    <button onclick="loadAddress('work')">Trabalho</button>
+                </div>
+                <button class="map-button" onclick="plotDestination()">Ver no Mapa</button>
+            </div>
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+        </div>
+        <button class="route-button" onclick="findRouteAndNavigate()">Mostrar caminho seguro</button>
+    </div>
+
+    <script>
+        const map = L.map('map').setView([0, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }).addTo(map);
+
+        let startCoords;
+        let destinationMarker;
+        
+        function getCurrentLocation() { return new Promise((resolve, reject) => { if (navigator.geolocation) { navigator.geolocation.getCurrentPosition( position => resolve([position.coords.latitude, position.coords.longitude]), error => reject('Erro: ' + error.message) ); } else { reject('Geolocalização não é suportada por este navegador.'); } }); }
+        function geocodeAddress(address) { const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`; return fetch(url).then(response => response.json()).then(data => { if (data && data.length > 0) { return [data[0].lat, data[0].lon]; } throw new Error('Endereço não encontrado.'); }); }
+        
+        async function plotDestination() {
+            const destinationAddress = document.getElementById('destinationInput').value;
+            if (!destinationAddress) { alert('Por favor, digite um endereço de destino.'); return; }
+            try {
+                const endCoords = await geocodeAddress(destinationAddress);
+                if (destinationMarker) {
+                    map.removeLayer(destinationMarker);
+                }
+                destinationMarker = L.marker(endCoords, { draggable: true }).addTo(map)
+                    .bindPopup('Arrastar para corrigir').openPopup();
+                map.setView(endCoords, 16);
+                alert('Marquei o local no mapa. Arraste o pino se precisar corrigi-lo.');
+            } catch (error) {
+                alert(error);
+                console.error(error);
+            }
+        }
+
+        async function findRouteAndNavigate() {
+            let endCoords;
+            if (destinationMarker) {
+                endCoords = [destinationMarker.getLatLng().lat, destinationMarker.getLatLng().lng];
+            } else {
+                const destinationAddress = document.getElementById('destinationInput').value;
+                if (!destinationAddress) { alert('Por favor, digite um endereço de destino.'); return; }
+                try {
+                    endCoords = await geocodeAddress(destinationAddress);
+                } catch (error) {
+                    alert(error);
+                    return;
+                }
+            }
+            try {
+                const startLocation = await getCurrentLocation();
+                localStorage.setItem('startCoords', JSON.stringify(startLocation));
+                localStorage.setItem('endCoords', JSON.stringify(endCoords));
+                window.location.href = 'rtas2.html';
+            } catch (error) {
+                alert(error);
+                console.error(error);
+            }
+        }
+
+        async function saveAddress(key) {
+            const address = document.getElementById('destinationInput').value;
+            if (!address) { alert('Digite um endereço para salvar.'); return; }
+            try {
+                const coords = await geocodeAddress(address);
+                const addressData = { address: address, coords: coords };
+                localStorage.setItem(key, JSON.stringify(addressData));
+                alert(`Endereço "${key}" salvo com sucesso!`);
+            } catch (error) {
+                alert('Erro ao salvar o endereço.');
+                console.error(error);
+            }
+        }
+        function loadAddress(key) {
+            const savedData = localStorage.getItem(key);
+            if (savedData) {
+                const addressData = JSON.parse(savedData);
+                document.getElementById('destinationInput').value = addressData.address;
+                plotDestination();
+            } else { alert(`Nenhum endereço salvo para a chave "${key}".`); }
+        }
+        getCurrentLocation().then(coords => {
+            startCoords = coords;
+            map.setView(coords, 16);
+            L.marker(coords).addTo(map).bindPopup('Sua Localização').openPopup();
+        }).catch(error => {
+            console.error(error);
+            map.setView([-23.5505, -46.6333], 13);
+        });
+    </script>
+</body>
+</html>
