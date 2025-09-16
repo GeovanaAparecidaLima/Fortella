@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destino</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            width: 375px; /* Largura comum para dispositivos móveis */
+            height: 667px; /* Altura comum para dispositivos móveis */
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #1a1a1a;
+            color: #fff;
+            text-align: center;
+            padding: 40px 20px 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            line-height: 1.3;
+        }
+
+        .image-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: -20px; /* Ajusta a posição da imagem da mulher */
+        }
+
+        .avatar-image {
+            width: 100px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .shield-icon {
+            width: 70px;
+            height: 70px;
+            position: absolute;
+            right: 95px; /* Ajusta a posição do escudo */
+            top: 50px; /* Ajusta a posição do escudo */
+            filter: drop-shadow(0 0 5px rgba(138, 43, 226, 0.8));
+        }
+
+        .details {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .share-button {
+            background-color: #7b0033;
+            color: #fff;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .share-button:hover {
+            background-color: #5f0028;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="header-title">VOCÊ CHEGOU AO SEU DESTINO COM SEGURANÇA!</h1>
+            <div class="image-container">
+                <img src="transferir (1).png" alt="Avatar de uma mulher" class="avatar-image">
+                <img src="transferir (2).png" alt="Ícone de escudo de segurança" class="shield-icon">
+            </div>
+        </header>
+
+        <section class="details">
+            <div class="detail-item">
+                <span class="detail-label">Local:</span>
+                <span class="detail-value"></span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Hora de chegada:</span>
+                <span class="detail-value" id="hora-chegada">10:18</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Data:</span>
+                <span class="detail-value" id="data-chegada">25/08/2025</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">Status:</span>
+                <span class="detail-value">Chegada segura confirmada</span>
+            </div>
+        </section>
+
+        <button class="share-button">Compartilhar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const shareButton = document.querySelector('.share-button');
+
+            shareButton.addEventListener('click', () => {
+                // Lógica de compartilhamento
+                const shareData = {
+                    title: 'Chegada Segura',
+                    text: 'Cheguei com segurança ao meu destino!',
+                    url: window.location.href
+                };
+
+                if (navigator.share) {
+                    navigator.share(shareData)
+                        .then(() => console.log('Conteúdo compartilhado com sucesso.'))
+                        .catch((error) => console.error('Erro ao compartilhar:', error));
+                } else {
+                    alert('A função de compartilhar não está disponível neste navegador.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
