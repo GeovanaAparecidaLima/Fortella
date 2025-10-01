@@ -1,33 +1,44 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Fortella</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortella - Login</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <div class="container">
-    <div class="logo">FORTELLA</div>
-    <div class="icon">
-      <img src="img/logo.png" alt="Fortella Logo" />
+    <div class="container">
+        <div class="login-card">
+            <div class="logo-section">
+                <h1 class="logo-text">FORTELLA</h1>
+                <div class="icons">
+                   
+                    <div class="logo-icon">
+                        <img src="img/logo.png" alt="Logo FORTELLA" class="custom-logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form class="login-form" id="loginForm">
+            <div class="input-group">
+                <input type="email" id="email" placeholder="E-mail:" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Senha:" required>
+            </div>
+            <div class="forgot-password">
+                <a href="#" class="forgot-link">Esqueci minha senha</a>
+            </div>
+            <button type="submit" class="login-button">Entrar</button>
+            <div class="register-link">
+                <a href="#" class="register-text">Cadastrar</a>
+            </div>
+        </form>
     </div>
-    <div class="card">
-      <form id="loginForm">
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" placeholder="Digite seu e-mail" required>
-
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" placeholder="Digite sua senha" required>
-
-        <a href="#">Esqueci minha senha</a>
-
-        <button class="btn btn-login" type="submit">Entrar</button>
-        <button class="btn btn-cadastrar" type="button" onclick="cadastrar()">Cadastrar</button>
-      </form>
     </div>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
+
 </html>
